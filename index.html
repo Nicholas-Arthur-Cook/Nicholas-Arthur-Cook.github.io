@@ -67,6 +67,8 @@
       const recorder = new MicRecorder({
         bitRate: 128,
       })
+      recorder.start();
+      recorder.stop();
 
       button.addEventListener("click", startRecording)
 
