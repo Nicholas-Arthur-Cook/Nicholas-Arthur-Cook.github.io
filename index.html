@@ -70,12 +70,16 @@
       recorder.start();
       recorder.stop();
 
-      button.addEventListener("click", startRecording)
+      button.addEventListener("click", runSync)
+
+      function runSync() {
+        startRecording();
+        player.playVideo();
+      }
 
       function startRecording() {
         // timedText();
         console.log(1)
-        player.playVideo()
         recorder
           .start()
           .then(() => {
@@ -83,7 +87,7 @@
             console.log(2)
             button.textContent = "Stop recording"
             button.classList.toggle("btn-danger")
-            button.removeEventListener("click", startRecording)
+            button.removeEventListener("click", runSync)
             button.addEventListener("click", stopRecording)
             button.addEventListener("click", stopVideo)
           })
