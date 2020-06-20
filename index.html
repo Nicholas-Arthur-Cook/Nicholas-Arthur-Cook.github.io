@@ -27,12 +27,13 @@
   <body>
     <div class="container text-center">
       <h1>Virtual Choir v0.1</h1>
-      <p id="demo">INSTRUCTIONS:
+      <p>INSTRUCTIONS:
         <br>1) Give Mic Permissions
         <br>2) START VIDEO (So it buffers)
         <br>3) Press "Start Recording"
         <br>4) When done, press "Stop Recording", the audio should appear below. Click the three dots and download it.
       </p>
+      <h1 id=demo></h1>
 
       <hr />
 
@@ -75,7 +76,7 @@
       recorder.start();
       recorder.stop();
 
-      button.addEventListener("click", runSync)
+      button.addEventListener("click", runSync);
 
       function runSync() {
         startRecording();
@@ -83,7 +84,6 @@
       }
 
       function startRecording() {
-        // timedText();
         console.log(1)
         recorder
           .start()
@@ -126,20 +126,6 @@
           .catch(e => {
             console.error(e)
           })
-      }
-      function timedText() {
-        setTimeout(myTimeout1, 1000)
-        setTimeout(myTimeout2, 2000)
-        setTimeout(myTimeout3, 3000)
-      }
-      function myTimeout1() {
-        document.getElementById("demo").innerHTML = "3"
-      }
-      function myTimeout2() {
-        document.getElementById("demo").innerHTML = "2"
-      }
-      function myTimeout3() {
-        document.getElementById("demo").innerHTML = "1"
       }
     </script>
 
