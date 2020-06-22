@@ -32,7 +32,7 @@ recordButton.addEventListener('click', () => {
     player.playVideo();
     startRecording();
   } else {
-    player.stopVideo();
+    player.pauseVideo();
     stopRecording();
     recordButton.textContent = 'Start Recording';
     playButton.disabled = false;
@@ -58,7 +58,7 @@ downloadButton.addEventListener('click', () => {
   const a = document.createElement('a');
   a.style.display = 'none';
   a.href = url;
-  a.download = 'test.webm';
+  a.download = 'recording.webm';
   document.body.appendChild(a);
   a.click();
   setTimeout(() => {
@@ -138,6 +138,7 @@ document.querySelector('button#start').addEventListener('click', async () => {
     gumImg.hidden = true;
     gumVideo.hidden = false;
     player.playVideo();
+    setTimeout(function(){ player.pauseVideo();; }, 1000);
   const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
   const constraints = {
     audio: {
