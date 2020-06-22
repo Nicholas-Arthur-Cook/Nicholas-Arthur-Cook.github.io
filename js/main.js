@@ -11,7 +11,6 @@ var tag = document.createElement("script")
       tag.src = "https://www.youtube.com/iframe_api"
       var firstScriptTag = document.getElementsByTagName("script")[0]
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
-
       var player
       function onYouTubeIframeAPIReady() {
         player = new YT.Player("player", {
@@ -26,6 +25,7 @@ let recordedBlobs;
 const errorMsgElement = document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
+const gumVideo = document.querySelector('video#gum');
 recordButton.addEventListener('click', () => {
   if (recordButton.textContent === 'Start Recording') {
     player.seekTo(0);
@@ -42,6 +42,7 @@ recordButton.addEventListener('click', () => {
 
 const playButton = document.querySelector('button#play');
 playButton.addEventListener('click', () => {
+  recordedVideo.hidden = false;
   const superBuffer = new Blob(recordedBlobs, {type: 'video/mp4;codecs=avc1'});
   recordedVideo.src = null;
   recordedVideo.srcObject = null;
@@ -119,8 +120,6 @@ function handleSuccess(stream) {
   recordButton.disabled = false;
   console.log('getUserMedia() got stream:', stream);
   window.stream = stream;
-
-  const gumVideo = document.querySelector('video#gum');
   gumVideo.srcObject = stream;
 }
 
@@ -135,6 +134,9 @@ async function init(constraints) {
 }
 
 document.querySelector('button#start').addEventListener('click', async () => {
+    const gumImg = document.querySelector('img#gumimg');
+    gumImg.hidden = true;
+    gumVideo.hidden = false;
     player.playVideo();
   const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
   const constraints = {
