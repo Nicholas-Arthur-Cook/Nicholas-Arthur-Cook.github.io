@@ -1,5 +1,7 @@
 /*
 *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+*
+* Copyright notice above for use of MediaRecorder API
 */
 
 'use strict';
