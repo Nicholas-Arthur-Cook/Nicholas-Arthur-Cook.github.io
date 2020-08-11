@@ -55,8 +55,8 @@
                 <br>4) When done, press "Stop Recording"
                 <br> Press "Play" to watch back, record again if you want, and press "Download" to download any verison
                 <div>
-                  <p>(IN PROGRESS) Echo cancellation:<input type="checkbox" id="echoCancellation"></p>
-              </div>
+                    <p>(IN PROGRESS) Echo cancellation:<input type="checkbox" id="echoCancellation"></p>
+                </div>
               </p>
           </header>
 
@@ -110,7 +110,12 @@
 
 
       <section class="tm-section-3 tm-section-mb" id="tm-section-3">
-          <div class="row">
+        <div class = "inputManager" style="text-align: center;" id="inputManager">
+            <p>Paste in youtube link for accompaniment track:</p>
+          <input style="width: 60%;" type="text" id="videoID" class="videoIDClass">
+          <button id="videoSubmit">Submit</button>
+        </div>
+          <div class="row" hidden id="mainrow">
               <div class="col-md-6 tm-mb-sm-4 tm-2col-l">
                   <div class="image">
                     <img id="gumimg"src="img/video-not-working.png" class="img-fluid">
@@ -124,9 +129,9 @@
               </div>
               <div class="buttons-list">
                   <button id="start" class="btn btn-big">Start camera</button>
-                  <button id="record" disabled class="btn btn-big">Start Recording</button>
-                  <button id="play" disabled class="btn btn-big">Play</button>
-                  <button id="download" disabled class="btn btn-big">Download</button>
+                  <button id="record" disabled class="btn btn-big" hidden>Start Recording</button>
+                  <button id="play"  class="btn btn-big" hidden>Play</button>
+                  <button id="download"  class="btn btn-big" hidden>Download</button>
               </div>
               <video id="recorded" playsinline loop hidden></video>
           </div>

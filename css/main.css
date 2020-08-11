@@ -12,6 +12,13 @@
     padding-right: 2px;
     width: 99px;
   }
+
+  inputManager {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f0e68c;
+  }
   
   button:last-of-type {
     margin: 0;

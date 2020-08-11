@@ -7,45 +7,106 @@
 'use strict';
 
 /* YOUTUBE API SETUP PART */
+var types = ["video/webm", 
+             "audio/webm", 
+             "video/webm\;codecs=vp9", 
+             "video/webm\;codecs=daala", 
+             "video/webm\;codecs=h264", 
+             "audio/webm\;codecs=opus", 
+             "video/mpeg",
+             "video/mp4"];
+
+for (var i in types) { 
+  console.log( "Is " + types[i] + " supported? " + (MediaRecorder.isTypeSupported(types[i]) ? "Maybe!" : "Nope :(")); 
+}
+
+function YouTubeGetID(url){
+  var ID = '';
+  url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  if(url[2] !== undefined) {
+    ID = url[2].split(/[^0-9a-z_\-]/i);
+    ID = ID[0];
+  }
+  else {
+    ID = url;
+  }
+    return ID;
+}
 
 var tag = document.createElement("script")
-
-      tag.src = "https://www.youtube.com/iframe_api"
-      var firstScriptTag = document.getElementsByTagName("script")[0]
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
-      var player
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player("player", {
-          videoId: "kcTCLY6ZJIA",
-        })
-      }
+tag.src = "https://www.youtube.com/iframe_api"
+var firstScriptTag = document.getElementsByTagName("script")[0]
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+var player
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("player", {
+    videoId: '0Le3-HpHRnw',
+    events: {
+      'onReady': onPlayerReady,
+    }
+  })
+}
+function onPlayerReady(event) {
+  event.target.playVideo();
+  event.target.pauseVideo();
+  player.mute();
+}
 
 
 let mediaRecorder;
 let recordedBlobs;
-
+const videoSubmit = document.querySelector('button#videoSubmit');
 const errorMsgElement = document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
 const gumVideo = document.querySelector('video#gum');
+
+//creates a listener for when you press a key
+window.onkeyup = keyup;
+
+//creates a global Javascript variable
+var inputTextValue;
+var actualID;
+
+function keyup(e) {
+  //setting your input text to the global Javascript Variable for every key press
+  inputTextValue = e.target.value;
+  //listens for you to press the ENTER key, at which point your web address will change to the one you have input in the search box
+  if (e.keyCode == 13) {
+    document.querySelector('div#inputManager').hidden = true;
+    document.querySelector('div#mainrow').hidden = false;
+    console.log(inputTextValue);
+    player.loadVideoById(inputTextValue);
+  }
+  videoSubmit.addEventListener('click', () => {
+    document.querySelector('div#inputManager').hidden = true;
+    document.querySelector('div#mainrow').hidden = false;
+    console.log(inputTextValue);
+    player.loadVideoById(inputTextValue);
+  })
+  
+}
+
+
 recordButton.addEventListener('click', () => {
   if (recordButton.textContent === 'Start Recording') {
     player.seekTo(0);
+    player.unMute();
     player.playVideo();
     startRecording();
   } else {
     player.pauseVideo();
     stopRecording();
     recordButton.textContent = 'Start Recording';
-    playButton.disabled = false;
-    downloadButton.disabled = false;
+    playButton.hidden = false;
+    downloadButton.hidden = false;
   }
 });
 
 const playButton = document.querySelector('button#play');
 playButton.addEventListener('click', () => {
   recordedVideo.hidden = false;
-  const superBuffer = new Blob(recordedBlobs, {type: 'video/mp4;codecs=avc1'});
+  const superBuffer = new Blob(recordedBlobs, {type: 'video/webm;codecs=vp9'});
   recordedVideo.src = null;
   recordedVideo.srcObject = null;
   recordedVideo.src = window.URL.createObjectURL(superBuffer);
@@ -55,7 +116,7 @@ playButton.addEventListener('click', () => {
 
 const downloadButton = document.querySelector('button#download');
 downloadButton.addEventListener('click', () => {
-  const blob = new Blob(recordedBlobs, {type: 'video/webm'});
+  const blob = new Blob(recordedBlobs, {type: 'video/webm;codecs=vp9'});
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.style.display = 'none';
@@ -79,7 +140,12 @@ function handleDataAvailable(event) {
 function startRecording() {
 
   recordedBlobs = [];
-  let options = {mimeType: 'video/webm;codecs=vp9,opus'};
+  var options = {
+    audioBitsPerSecond : 128000,
+    videoBitsPerSecond : 2500000,
+    mimeType : 'video/webm;codecs=vp9'
+  }
+  /*let options = {mimeType: 'video/webm;codecs=vp9,opus'};
   if (!MediaRecorder.isTypeSupported(options.mimeType)) {
     console.error(`${options.mimeType} is not supported`);
     options = {mimeType: 'video/webm;codecs=vp8,opus'};
@@ -91,7 +157,7 @@ function startRecording() {
         options = {mimeType: ''};
       }
     }
-  }
+  }*/
 
   try {
     mediaRecorder = new MediaRecorder(window.stream, options);
@@ -103,8 +169,6 @@ function startRecording() {
 
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
   recordButton.textContent = 'Stop Recording';
-  playButton.disabled = true;
-  downloadButton.disabled = true;
   mediaRecorder.onstop = (event) => {
     console.log('Recorder stopped: ', event);
     console.log('Recorded Blobs: ', recordedBlobs);
@@ -134,8 +198,10 @@ async function init(constraints) {
     errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
   }
 }
-
-document.querySelector('button#start').addEventListener('click', async () => {
+const startButton = document.querySelector('button#start');
+startButton.addEventListener('click', async () => {
+    startButton.hidden = true;
+    recordButton.hidden = false;
     const gumImg = document.querySelector('img#gumimg');
     gumImg.hidden = true;
     gumVideo.hidden = false;
