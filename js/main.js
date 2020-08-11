@@ -76,14 +76,17 @@ function keyup(e) {
     document.querySelector('div#inputManager').hidden = true;
     document.querySelector('div#mainrow').hidden = false;
     console.log(inputTextValue);
-    player.loadVideoById(inputTextValue);
+    var realID = YouTubeGetID(inputTextValue);
+    console.log(realID);
+    player.loadVideoById(realID);
     setTimeout(function() {player.pauseVideo()}, 1500);
   }
   videoSubmit.addEventListener('click', () => {
     document.querySelector('div#inputManager').hidden = true;
     document.querySelector('div#mainrow').hidden = false;
     console.log(inputTextValue);
-    player.loadVideoById(inputTextValue);
+    var realID = YouTubeGetID(inputTextValue);
+    player.loadVideoById(realID);
     setTimeout(function() {player.pauseVideo()}, 1500);
   })
   
