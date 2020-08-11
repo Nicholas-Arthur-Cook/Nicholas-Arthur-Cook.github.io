@@ -77,14 +77,14 @@ function keyup(e) {
     document.querySelector('div#mainrow').hidden = false;
     console.log(inputTextValue);
     player.loadVideoById(inputTextValue);
-    setTimeout(player.pauseVideo(), 500);
+    setTimeout(function() {player.pauseVideo()}, 1500);
   }
   videoSubmit.addEventListener('click', () => {
     document.querySelector('div#inputManager').hidden = true;
     document.querySelector('div#mainrow').hidden = false;
     console.log(inputTextValue);
     player.loadVideoById(inputTextValue);
-    setTimeout(player.pauseVideo(), 500);
+    setTimeout(function() {player.pauseVideo()}, 1500);
   })
   
 }
@@ -92,6 +92,7 @@ function keyup(e) {
 
 recordButton.addEventListener('click', () => {
   if (recordButton.textContent === 'Start Recording') {
+    recordButton.textContent = 'Stop Recording';
     player.seekTo(0);
     player.unMute();
     player.playVideo();
@@ -207,8 +208,6 @@ startButton.addEventListener('click', async () => {
     const gumImg = document.querySelector('img#gumimg');
     gumImg.hidden = true;
     gumVideo.hidden = false;
-    player.playVideo();
-    setTimeout(function(){ player.pauseVideo();; }, 1000);
   const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
   const constraints = {
     audio: {

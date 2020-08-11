@@ -47,17 +47,7 @@
   <div class="container">
       <section class="tm-section-head" id="top">
           <header id="header" class="text-center tm-text-gray">
-              <h1>VIRTUAL CHOIR MIXER v1.1</h1>
-              <p class="center">INSTRUCTIONS:
-                <br>1) Press "Start Camera" and give mic/video permissions 
-                <br>2) Let video buffer/load for a second
-                <br>3) Press "Start Recording"
-                <br>4) When done, press "Stop Recording"
-                <br> Press "Play" to watch back, record again if you want, and press "Download" to download any verison
-                <div>
-                    <p>(IN PROGRESS) Echo cancellation:<input type="checkbox" id="echoCancellation"></p>
-                </div>
-              </p>
+              <h1>VIRTUAL CHOIR MIXER v1.2</h1>
           </header>
 
           <nav class="navbar narbar-light">
@@ -133,9 +123,16 @@
                   <button id="play"  class="btn btn-big" hidden>Play</button>
                   <button id="download"  class="btn btn-big" hidden>Download</button>
               </div>
+              
+              
               <video id="recorded" playsinline loop hidden></video>
+              <div style="text-align: center;">
+                <p hidden>(IN PROGRESS) Echo cancellation:<input type="checkbox" id="echoCancellation"></p>
+            </div>
           </div>
+          
       </section>
+      
 
       <section class="tm-section-4 tm-section-mb" id="tm-section-4">
           <div class="row">
