@@ -77,12 +77,14 @@ function keyup(e) {
     document.querySelector('div#mainrow').hidden = false;
     console.log(inputTextValue);
     player.loadVideoById(inputTextValue);
+    setTimeout(player.pauseVideo(), 500);
   }
   videoSubmit.addEventListener('click', () => {
     document.querySelector('div#inputManager').hidden = true;
     document.querySelector('div#mainrow').hidden = false;
     console.log(inputTextValue);
     player.loadVideoById(inputTextValue);
+    setTimeout(player.pauseVideo(), 500);
   })
   
 }
