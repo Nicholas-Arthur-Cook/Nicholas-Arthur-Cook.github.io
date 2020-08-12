@@ -68,7 +68,7 @@ window.onkeyup = keyup;
 var inputTextValue;
 var actualID;
 
-videoSubmit.addEventListener('click', () => {
+$('#videoSubmit').click(function () {
   var input = document.querySelector('input#videoID').value;
   document.querySelector('div#inputManager').hidden = true;
   document.querySelector('div#mainrow').hidden = false;
