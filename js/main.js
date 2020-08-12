@@ -68,6 +68,17 @@ window.onkeyup = keyup;
 var inputTextValue;
 var actualID;
 
+videoSubmit.addEventListener('click', () => {
+  var input = document.querySelector('input#videoID').value;
+  document.querySelector('div#inputManager').hidden = true;
+  document.querySelector('div#mainrow').hidden = false;
+  console.log(input);
+  var realID = YouTubeGetID(input);
+  console.log(realID);
+  player.loadVideoById(realID);
+  setTimeout(function() {player.pauseVideo()}, 1500);
+})
+
 function keyup(e) {
   //setting your input text to the global Javascript Variable for every key press
   inputTextValue = e.target.value;
@@ -81,14 +92,7 @@ function keyup(e) {
     player.loadVideoById(realID);
     setTimeout(function() {player.pauseVideo()}, 1500);
   }
-  videoSubmit.addEventListener('click', () => {
-    document.querySelector('div#inputManager').hidden = true;
-    document.querySelector('div#mainrow').hidden = false;
-    console.log(inputTextValue);
-    var realID = YouTubeGetID(inputTextValue);
-    player.loadVideoById(realID);
-    setTimeout(function() {player.pauseVideo()}, 1500);
-  })
+  
   
 }
 
